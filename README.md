@@ -1,75 +1,37 @@
-# Nuxt Minimal Starter
+# Nuxt Portfolio (Hibrido com Quasar)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Portifolio pessoal em Nuxt 4 com abordagem hibrida:
+- Quasar para componentes base de UI (botoes, cards, chips, imagem)
+- CSS autoral para identidade visual moderna e profissional
 
-## Setup
+## Stack
 
-Make sure to install dependencies:
+- Nuxt 4
+- Vue 3
+- Quasar 2
+- Sass Embedded
+
+## Scripts
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Estrutura Principal
+
+```text
+app/
+  assets/css/main.css        # Tema visual autoral
+  data/portfolio.ts          # Dados de perfil, skills e projetos
+  layouts/default.vue        # Shell principal
+  pages/index.vue            # Landing page do portfolio
+  plugins/quasar.ts          # Registro global do Quasar
+```
+
+## Observacoes
+
+- O projeto usa assets reaproveitados do portfolio antigo em React em public/imgs.
+- O build pode exibir warnings de deprecacao Sass do Quasar, mas compila com sucesso.

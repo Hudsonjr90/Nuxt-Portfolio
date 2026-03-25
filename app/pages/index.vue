@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <q-page class="page">
     <header class="topbar">
       <a href="#home" class="brand">HK</a>
       <nav>
@@ -18,17 +18,32 @@
           <p class="hero-role">{{ profile.role }}</p>
           <p class="hero-summary">{{ profile.summary }}</p>
           <div class="hero-cta">
-            <a href="#projects" class="btn btn-primary">Ver projetos</a>
-            <a href="#contact" class="btn btn-ghost">Falar comigo</a>
+            <q-btn
+              color="primary"
+              unelevated
+              rounded
+              label="Ver projetos"
+              class="btn btn-primary"
+              href="#projects"
+            />
+            <q-btn
+              flat
+              rounded
+              label="Falar comigo"
+              class="btn btn-ghost"
+              href="#contact"
+            />
           </div>
         </div>
         <div class="hero-photo-wrap">
-          <img
+          <q-img
             src="/imgs/my.webp"
             alt="Foto de Hudson Kennedy"
             class="hero-photo"
+            fit="cover"
             loading="eager"
-          >
+            no-spinner
+          />
         </div>
       </section>
 
@@ -38,23 +53,27 @@
           <h2>Perfil profissional</h2>
         </div>
         <div class="about-grid">
-          <img
+          <q-img
             src="/imgs/about.webp"
             alt="Hudson Kennedy programando"
             class="about-image"
+            fit="cover"
             loading="lazy"
-          >
+            no-spinner
+          />
           <div>
             <p class="about-location">Base: {{ profile.location }}</p>
             <ul class="highlight-list">
               <li v-for="item in highlights" :key="item">{{ item }}</li>
             </ul>
             <div class="xp-grid">
-              <article v-for="xp in experiences" :key="xp.company" class="xp-card">
-                <h3>{{ xp.company }}</h3>
-                <p>{{ xp.role }}</p>
-                <span>{{ xp.period }}</span>
-              </article>
+              <q-card v-for="xp in experiences" :key="xp.company" flat bordered class="xp-card">
+                <q-card-section>
+                  <h3>{{ xp.company }}</h3>
+                  <p>{{ xp.role }}</p>
+                  <span>{{ xp.period }}</span>
+                </q-card-section>
+              </q-card>
             </div>
           </div>
         </div>
@@ -66,7 +85,16 @@
           <h2>Tecnologias principais</h2>
         </div>
         <div class="skill-cloud">
-          <span v-for="skill in skills" :key="skill" class="skill-pill">{{ skill }}</span>
+          <q-chip
+            v-for="skill in skills"
+            :key="skill"
+            outline
+            color="primary"
+            text-color="white"
+            class="skill-pill"
+          >
+            {{ skill }}
+          </q-chip>
         </div>
       </section>
 
@@ -76,9 +104,9 @@
           <h2>Trabalhos em destaque</h2>
         </div>
         <div class="projects-grid">
-          <article v-for="project in projects" :key="project.name" class="project-card">
-            <img :src="project.image" :alt="`Projeto ${project.name}`" loading="lazy">
-            <div class="project-content">
+          <q-card v-for="project in projects" :key="project.name" flat bordered class="project-card">
+            <q-img :src="project.image" :alt="`Projeto ${project.name}`" fit="cover" loading="lazy" no-spinner />
+            <q-card-section class="project-content">
               <h3>{{ project.name }}</h3>
               <p>{{ project.description }}</p>
               <ul class="tech-list">
@@ -88,8 +116,8 @@
                 <a :href="project.deployUrl" target="_blank" rel="noopener noreferrer">Deploy</a>
                 <a :href="project.repoUrl" target="_blank" rel="noopener noreferrer">Repositório</a>
               </div>
-            </div>
-          </article>
+            </q-card-section>
+          </q-card>
         </div>
       </section>
 
@@ -109,11 +137,12 @@
         </div>
       </section>
     </main>
-  </div>
+  </q-page>
 </template>
 
 <script setup lang="ts">
-import { experiences, highlights, profile, projects, skills } from '~/data/portfolio';
+import { useSeoMeta } from 'nuxt/app';
+import { experiences, highlights, profile, projects, skills } from '../data/portfolio';
 
 useSeoMeta({
   title: `${profile.name} | ${profile.role}`,
