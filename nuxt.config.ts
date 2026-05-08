@@ -4,9 +4,20 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
   css: ['~/assets/css/main.css'],
-  build: {
-    transpile: ['quasar']
+  runtimeConfig: {
+    public: {
+      enableVercelAnalytics: false,
+      giscusRepo: '',
+      giscusRepoId: '',
+      giscusCategory: 'General',
+      giscusCategoryId: ''
+    }
+  },
+  routeRules: {
+    '/articles/**': { isr: 3600 },
+    '/': { isr: 3600 }
   },
   vite: {
     define: {
@@ -15,7 +26,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Hudson Kennedy | Portfólio',
+      title: 'Engineering Blog',
       htmlAttrs: {
         lang: 'pt-BR'
       },
@@ -26,9 +37,19 @@ export default defineNuxtConfig({
         },
         {
           name: 'description',
-          content: 'Portfólio moderno em Nuxt com projetos, skills e contato.'
+          content: 'Blog de engenharia com artigos, notas de desenvolvimento e arquitetura front-end moderna em Nuxt.'
         }
       ]
+    }
+  },
+  content: {
+    build: {
+      markdown: {
+        toc: {
+          depth: 3,
+          searchDepth: 3
+        }
+      }
     }
   }
 });

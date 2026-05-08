@@ -1,155 +1,139 @@
-<template>
-  <q-page class="page">
-    <header class="topbar">
-      <a href="#home" class="brand">HK</a>
-      <nav>
-        <a href="#about">Sobre</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projetos</a>
-        <a href="#contact">Contato</a>
-      </nav>
-    </header>
-
-    <main>
-      <section id="home" class="hero section">
-        <div class="hero-copy">
-          <p class="eyebrow">Disponível para novos projetos</p>
-          <h1>{{ profile.name }}</h1>
-          <p class="hero-role">{{ profile.role }}</p>
-          <p class="hero-summary">{{ profile.summary }}</p>
-          <div class="hero-cta">
-            <q-btn
-              color="primary"
-              unelevated
-              rounded
-              label="Ver projetos"
-              class="btn btn-primary"
-              href="#projects"
-            />
-            <q-btn
-              flat
-              rounded
-              label="Falar comigo"
-              class="btn btn-ghost"
-              href="#contact"
-            />
-          </div>
-        </div>
-        <div class="hero-photo-wrap">
-          <q-img
-            src="/imgs/my.webp"
-            alt="Foto de Hudson Kennedy"
-            class="hero-photo"
-            fit="cover"
-            loading="eager"
-            no-spinner
-          />
-        </div>
-      </section>
-
-      <section id="about" class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Sobre</p>
-          <h2>Perfil profissional</h2>
-        </div>
-        <div class="about-grid">
-          <q-img
-            src="/imgs/about.webp"
-            alt="Hudson Kennedy programando"
-            class="about-image"
-            fit="cover"
-            loading="lazy"
-            no-spinner
-          />
-          <div>
-            <p class="about-location">Base: {{ profile.location }}</p>
-            <ul class="highlight-list">
-              <li v-for="item in highlights" :key="item">{{ item }}</li>
-            </ul>
-            <div class="xp-grid">
-              <q-card v-for="xp in experiences" :key="xp.company" flat bordered class="xp-card">
-                <q-card-section>
-                  <h3>{{ xp.company }}</h3>
-                  <p>{{ xp.role }}</p>
-                  <span>{{ xp.period }}</span>
-                </q-card-section>
-              </q-card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="skills" class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Skills</p>
-          <h2>Tecnologias principais</h2>
-        </div>
-        <div class="skill-cloud">
-          <q-chip
-            v-for="skill in skills"
-            :key="skill"
-            outline
-            color="primary"
-            text-color="white"
-            class="skill-pill"
-          >
-            {{ skill }}
-          </q-chip>
-        </div>
-      </section>
-
-      <section id="projects" class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Projetos</p>
-          <h2>Trabalhos em destaque</h2>
-        </div>
-        <div class="projects-grid">
-          <q-card v-for="project in projects" :key="project.name" flat bordered class="project-card">
-            <q-img :src="project.image" :alt="`Projeto ${project.name}`" fit="cover" loading="lazy" no-spinner />
-            <q-card-section class="project-content">
-              <h3>{{ project.name }}</h3>
-              <p>{{ project.description }}</p>
-              <ul class="tech-list">
-                <li v-for="tech in project.technologies" :key="tech">{{ tech }}</li>
-              </ul>
-              <div class="project-links">
-                <a :href="project.deployUrl" target="_blank" rel="noopener noreferrer">Deploy</a>
-                <a :href="project.repoUrl" target="_blank" rel="noopener noreferrer">Repositório</a>
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
-      </section>
-
-      <section id="contact" class="section contact">
-        <div class="section-heading">
-          <p class="eyebrow">Contato</p>
-          <h2>Vamos construir algo forte juntos</h2>
-        </div>
-        <p>
-          Se você busca um front-end moderno, performático e orientado a negócio,
-          vamos conversar.
-        </p>
-        <div class="contact-links">
-          <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
-          <a :href="profile.github" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a :href="profile.linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
-      </section>
-    </main>
-  </q-page>
-</template>
-
 <script setup lang="ts">
-import { useSeoMeta } from 'nuxt/app';
-import { experiences, highlights, profile, projects, skills } from '../data/portfolio';
+const { data: latestArticles } = await useAsyncData('home-latest-articles', () =>
+  queryCollection('articles')
+    .where('draft', '=', 0)
+    .order('date', 'DESC')
+    .limit(4)
+    .all()
+);
 
 useSeoMeta({
-  title: `${profile.name} | ${profile.role}`,
+  title: 'Engineering Blog | Articles e Dev Notes',
   description:
-    'Portfólio profissional com projetos front-end, experiências e contato.',
-  ogTitle: `${profile.name} | Portfólio`,
+    'Blog técnico com artigos de arquitetura front-end, engenharia de software e notas práticas de desenvolvimento.',
+  ogTitle: 'Engineering Blog',
   ogDescription:
-    'Projetos em Nuxt, React e TypeScript com foco em produto, UX e performance.'
+    'Articles e Dev Notes sobre Nuxt, arquitetura e performance para projetos modernos.'
 });
 </script>
+
+<template>
+  <section class="hero">
+    <p class="eyebrow">Articles</p>
+    <h1>Engineering Blog</h1>
+    <p class="hero-copy">
+      Conteudo focado em arquitetura de front-end, performance e decisoes tecnicas para produtos reais.
+    </p>
+    <div class="hero-actions">
+      <NuxtLink to="/articles" class="btn btn-primary">Explorar artigos</NuxtLink>
+      <NuxtLink to="/articles/dev-notes" class="btn btn-secondary">Ler dev notes</NuxtLink>
+    </div>
+  </section>
+
+  <section class="latest">
+    <div class="section-head">
+      <h2>Ultimos posts</h2>
+      <NuxtLink to="/articles" class="more">Ver todos</NuxtLink>
+    </div>
+
+    <div class="grid" v-if="latestArticles?.length">
+      <ArticleCard v-for="article in latestArticles" :key="article.id" :article="article" />
+    </div>
+
+    <p v-else class="empty">Nenhum artigo publicado ainda.</p>
+  </section>
+</template>
+
+<style scoped>
+.hero {
+  padding-top: 1.1rem;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0.55rem 0 0;
+  font-size: clamp(2rem, 6.1vw, 4rem);
+  line-height: 1.03;
+  font-family: var(--font-display);
+}
+
+.hero-copy {
+  margin: 1rem 0 0;
+  max-width: 63ch;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.hero-actions {
+  margin-top: 1.3rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 0.66rem 0.95rem;
+}
+
+.btn-primary {
+  background: linear-gradient(120deg, var(--accent), #90e0a0);
+  color: #121616;
+}
+
+.btn-secondary {
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+
+.latest {
+  margin-top: 2.45rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+}
+
+.more {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.empty {
+  margin-top: 0.8rem;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
